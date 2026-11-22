@@ -1,0 +1,37 @@
+name: sops
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'sops/**'
+      - '.github/workflows/sops.yml'
+    tags:
+      - 'sops-*'
+  pull_request:
+    paths:
+      - 'sops/**'
+      - '.github/workflows/sops.yml'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  docker:
+    permissions:
+      contents: read
+      packages: write
+    uses: RyanRuiLiu/.github/.github/workflows/docker.yml@d77ab28fc191b7c00b61318cf0d6cdb6867d8902
+    with:
+      image_name: sops
+      context: ./sops
+      dockerfile: ./sops/Dockerfile
+      tags: |
+        type=match,pattern=sops-(\d+\.\d+\.\d+),group=1
+        type=sha
+    secrets:
+      ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+      ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+      ACR_REGISTRY: ${{ secrets.ACR_REGISTRY }}
+      ACR_NAMESPACE: ${{ secrets.ACR_NAMESPACE }}

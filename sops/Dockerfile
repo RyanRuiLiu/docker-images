@@ -1,10 +1,13 @@
-FROM ubuntu:noble
+FROM alpine:3.24.4 AS download
 ARG SOPS_VERSION=3.13.3
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates curl \
-    && curl -fsSL "https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops_${SOPS_VERSION}_amd64.deb" -o /tmp/sops.deb \
-    && dpkg -i /tmp/sops.deb \
-    && rm /tmp/sops.deb \
-    && apt-get purge -y curl \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache ca-certificates \
+    && wget -q -O /tmp/sops "https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64" \
+    && wget -q -O /tmp/checksums.txt "https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.checksums.txt" \
+    && cd /tmp \
+    && grep " sops-v${SOPS_VERSION}.linux.amd64$" checksums.txt | sha256sum -c - \
+    && mkdir -p /out \
+    && cp /tmp/sops /out/sops \
+    && chmod 755 /out/sops
+
+FROM ubuntu:noble
+COPY --from=download /out/sops /usr/local/bin/sops

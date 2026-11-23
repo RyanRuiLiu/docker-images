@@ -15,7 +15,7 @@
 | --- | --- |
 | caddy-cloudflare/Dockerfile | caddy-cloudflare 镜像构建定义（官方 builder 多阶段模式） |
 | sops/Dockerfile | sops 镜像构建定义（构建时自官方 release 下载 deb，二进制不入库） |
-| .github/workflows/ | 各镜像的构建工作流，复用 .github 仓库共享 docker.yml |
+| .github/workflows/ | 各镜像的构建工作流（复用 .github 仓库共享 docker.yml）与包版本保留工作流（每周清理，保留最新 3 个版本） |
 
 ## 构建与发布
 

@@ -1,0 +1,29 @@
+name: retention
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  packages: write
+
+jobs:
+  cleanup:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete package versions beyond the newest three
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          OWNER=RyanRuiLiu
+          KEEP=3
+          for PKG in sops caddy-cloudflare; do
+            IDS=$(curl -sf -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/users/$OWNER/packages/container/$PKG/versions?per_page=100" | jq -r '.[].id' | tail -n +$((KEEP+1)))
+            for ID in $IDS; do
+              curl -sf -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" \
+                "https://api.github.com/users/$OWNER/packages/container/$PKG/versions/$ID" || echo "delete $PKG version $ID failed"
+            done
+          done

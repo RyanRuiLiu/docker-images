@@ -8,4 +8,4 @@ RUN apk add --no-cache ca-certificates \
     && cp "sops-v${SOPS_VERSION}.linux.amd64" /tmp/sops
 
 FROM ubuntu:noble
-COPY --from=download /tmp/sops /usr/local/bin/sops
+COPY --chmod=755 --from=download /tmp/sops /usr/local/bin/sops

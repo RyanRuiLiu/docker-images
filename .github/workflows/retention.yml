@@ -1,16 +1,23 @@
 name: retention
 
+# 依据：GitHub Docs "Reuse workflows"（调用方经 jobs.<job_id>.uses 调用可复用工作流，
+# 输入经 jobs.<job_id>.with 传入）
 on:
   schedule:
     - cron: '0 3 * * 1'
   workflow_dispatch:
 
-permissions:
-  packages: write
-
 jobs:
-  cleanup:
-    uses: RyanRuiLiu/.github/.github/workflows/retention.yml@901ff9545144ff3bbdc3b53902093e2b0f30f3dc
+  sops:
+    permissions:
+      packages: write
+    uses: RyanRuiLiu/.github/.github/workflows/retention.yml@a876cd572f63f1af29bb35edd5f3f9e209caa202
     with:
-      packages: 'sops caddy-cloudflare'
-    secrets: inherit
+      package: sops
+
+  caddy-cloudflare:
+    permissions:
+      packages: write
+    uses: RyanRuiLiu/.github/.github/workflows/retention.yml@a876cd572f63f1af29bb35edd5f3f9e209caa202
+    with:
+      package: caddy-cloudflare

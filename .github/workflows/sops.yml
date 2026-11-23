@@ -21,11 +21,12 @@ jobs:
   docker:
     permissions:
       contents: read
-    uses: RyanRuiLiu/.github/.github/workflows/docker.yml@47741450fa845e7a1f462d6f55492795a7e40c32
+    uses: RyanRuiLiu/.github/.github/workflows/docker.yml@6e3d10a0691c01ecc1774122c15497ef36c0a4d9
     with:
       image_name: sops
       context: ./sops
       dockerfile: ./sops/Dockerfile
+      version_pattern: '^ARG SOPS_VERSION=\K[0-9]+\.[0-9]+\.[0-9]+'
       tags: |
         type=match,pattern=sops-(\d+\.\d+\.\d+),group=1
         type=sha

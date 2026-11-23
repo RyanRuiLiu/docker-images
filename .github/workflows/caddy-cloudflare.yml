@@ -7,8 +7,6 @@ on:
     paths:
       - 'caddy-cloudflare/**'
       - '.github/workflows/caddy-cloudflare.yml'
-    tags:
-      - 'caddy-*'
   pull_request:
     paths:
       - 'caddy-cloudflare/**'
@@ -28,7 +26,6 @@ jobs:
       dockerfile: ./caddy-cloudflare/Dockerfile
       version_pattern: '^FROM caddy:\K[0-9]+\.[0-9]+\.[0-9]+'
       tags: |
-        type=match,pattern=caddy-(\d+\.\d+\.\d+),group=1
         type=sha
     secrets:
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}

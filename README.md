@@ -7,7 +7,7 @@
 | 镜像 | 目录 | 版本 | 用途 |
 | --- | --- | --- | --- |
 | caddy-cloudflare | caddy-cloudflare/ | 2.11.9 | Caddy + Cloudflare DNS 插件（caddy-dns/cloudflare）；中心反向代理 |
-| sops | sops/ | 3.13.3 | 官方 sops 二进制（官方 checksums 校验）的工具镜像（实例初始化提取二进制） |
+| sops | sops/ | 3.13.3 | 官方 sops 二进制（官方 checksums 校验）的工具镜像（置备与同步时解密密钥） |
 
 ## 仓库结构
 
@@ -19,7 +19,7 @@
 
 ## 构建与发布
 
-- 触发：`push` 到 main 且改动对应镜像目录时构建并推送；`pull_request` 改动同样路径时仅构建校验
+- 触发：`push` 到 main 且改动对应镜像目录或工作流文件时构建并推送；`pull_request` 改动同样路径时仅构建校验
 - 标签：推送 main 时仅产生 `main`；PR 构建不推送镜像。不再产生版本与 sha 标签，避免 ACR 个人版标签累积（个人版不支持自动清理）
 - 发布：ACR
 - 引用：服务器与应用一律引用 ACR 路径

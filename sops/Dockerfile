@@ -8,5 +8,5 @@ RUN apk add --no-cache ca-certificates \
     && grep " sops-v${SOPS_VERSION}.linux.${TARGETARCH}$" checksums.txt | sha256sum -c - \
     && cp "sops-v${SOPS_VERSION}.linux.${TARGETARCH}" /tmp/sops
 
-FROM ubuntu:noble
+FROM ubuntu:26.04
 COPY --chmod=755 --from=download /tmp/sops /usr/local/bin/sops

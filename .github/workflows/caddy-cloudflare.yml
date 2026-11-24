@@ -50,8 +50,19 @@ jobs:
         run: |
           body="{\"ref\":\"${GITHUB_REF}\",\"sha\":\"${GITHUB_SHA}\"}"
           signature=$(printf '%s' "$body" | openssl dgst -sha256 -hmac "$WEBHOOK_SECRET" | awk '{print $NF}')
-          curl -fsS --max-time 300 --retry 5 --retry-all-errors -X POST \
+          curl -fsS --max-time 60 --retry 5 --retry-all-errors -X POST \
             -H "Content-Type: application/json" \
             -H "X-Signature-256: sha256=$signature" \
             --data-binary "$body" \
             "https://ryanliu.cn/hooks/sync-infra"
+      - name: Verify site
+        run: |
+          for i in $(seq 1 18); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 https://ryanliu.cn/ || true)
+            if [ "$code" = "200" ]; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "site not healthy: $code" >&2
+          exit 1

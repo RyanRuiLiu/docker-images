@@ -23,7 +23,7 @@
 - 标签：推送 main 时仅产生 `main`；PR 构建不推送镜像。不再产生版本与 sha 标签，避免 ACR 个人版标签累积（个人版不支持自动清理）
 - 发布：ACR
 - 引用：服务器与应用一律引用 ACR 路径
-- Caddy 自动同步：`caddy-cloudflare` 在 main 构建成功后会调用服务器同步钩子，重建线上 Caddy 容器
+- Caddy 自动同步：`caddy-cloudflare` 在 main 构建成功后会调用服务器同步钩子，重建线上 Caddy 容器，并轮询状态直到同步成功或失败
 
 ## 依赖的 Actions Secrets
 

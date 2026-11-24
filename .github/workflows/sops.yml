@@ -22,7 +22,7 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
-    uses: RyanRuiLiu/.github/.github/workflows/docker.yml@9d9fb64d2ca92d4fb089d0fd3429ea67db4ea283
+    uses: RyanRuiLiu/.github/.github/workflows/docker.yml@ab0dbbcfb12dfa191e3fc34d0df94b4bc64f240b
     with:
       image_name: sops
       context: ./sops

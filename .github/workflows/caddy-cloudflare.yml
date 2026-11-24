@@ -27,10 +27,8 @@ jobs:
       image_name: caddy-cloudflare
       context: ./caddy-cloudflare
       dockerfile: ./caddy-cloudflare/Dockerfile
-      version_pattern: '^FROM caddy:\K[0-9]+\.[0-9]+\.[0-9]+'
       tags: |
         type=ref,event=branch
-        type=sha
     secrets:
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
       ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}

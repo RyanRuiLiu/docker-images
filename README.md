@@ -20,7 +20,7 @@
 ## 构建与发布
 
 - 触发：`push` 到 main 且改动对应镜像目录时构建并推送；`pull_request` 改动同样路径时仅构建校验
-- 标签：推送 main 时产生 `<版本>`（自 Dockerfile 提取）、`main` 与 `sha-<提交短哈希>`；PR 构建不推送镜像
+- 标签：推送 main 时仅产生 `main`；PR 构建不推送镜像。不再产生版本与 sha 标签，避免 ACR 个人版标签累积（个人版不支持自动清理）
 - 发布：ACR
 - 引用：服务器与应用一律引用 ACR 路径
 - Caddy 自动同步：`caddy-cloudflare` 在 main 构建成功后会调用服务器同步钩子，重建线上 Caddy 容器

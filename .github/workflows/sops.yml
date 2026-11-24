@@ -27,9 +27,8 @@ jobs:
       image_name: sops
       context: ./sops
       dockerfile: ./sops/Dockerfile
-      version_pattern: '^ARG SOPS_VERSION=\K[0-9]+\.[0-9]+\.[0-9]+'
       tags: |
-        type=sha
+        type=ref,event=branch
     secrets:
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
       ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}

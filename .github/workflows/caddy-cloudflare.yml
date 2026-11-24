@@ -36,3 +36,22 @@ jobs:
       ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       ACR_REGISTRY: ${{ secrets.ACR_REGISTRY }}
       ACR_NAMESPACE: ${{ secrets.ACR_NAMESPACE }}
+
+  notify:
+    needs: docker
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Caddy sync
+        env:
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+        run: |
+          body="{\"ref\":\"${GITHUB_REF}\",\"sha\":\"${GITHUB_SHA}\"}"
+          signature=$(printf '%s' "$body" | openssl dgst -sha256 -hmac "$WEBHOOK_SECRET" | awk '{print $NF}')
+          curl -fsS --max-time 300 --retry 5 --retry-all-errors -X POST \
+            -H "Content-Type: application/json" \
+            -H "X-Signature-256: sha256=$signature" \
+            --data-binary "$body" \
+            "https://ryanliu.cn/hooks/sync-infra"

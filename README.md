@@ -23,9 +23,11 @@
 - 标签：推送 main 时产生 `<版本>`（自 Dockerfile 提取）、`main` 与 `sha-<提交短哈希>`；PR 构建不推送镜像
 - 发布：ACR
 - 引用：服务器与应用一律引用 ACR 路径
+- Caddy 自动同步：`caddy-cloudflare` 在 main 构建成功后会调用服务器同步钩子，重建线上 Caddy 容器
 
 ## 依赖的 Actions Secrets
 
 | Secret | 说明 |
 | --- | --- |
 | ACR_REGISTRY / ACR_NAMESPACE / ACR_USERNAME / ACR_PASSWORD | ACR 公网端点、命名空间与凭据 |
+| WEBHOOK_SECRET | 调用服务器同步钩子的 HMAC 密钥，与 infra 侧同一值 |

@@ -4,6 +4,10 @@ updates:
     directory: "/caddy-cloudflare"
     schedule:
       interval: "weekly"
+    groups:
+      caddy:
+        patterns:
+          - "caddy*"
     commit-message:
       prefix: "build(deps)"
   - package-ecosystem: "docker"

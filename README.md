@@ -4,11 +4,11 @@
 
 ## 镜像
 
-| 镜像 | 目录 | 当前版本 | 用途 |
-| --- | --- | --- | --- |
-| caddy-cloudflare | `caddy-cloudflare/` | 2.11.9 | Caddy + Cloudflare DNS 插件；中心反向代理 |
-| sops | `sops/` | 3.13.3 | sops 二进制（官方 checksums 校验）；解密密钥 |
-| litestream | `litestream/` | 0.5.18 | Litestream 官方镜像；SQLite 持续备份 |
+| 镜像 | 目录 | 用途 |
+| --- | --- | --- |
+| caddy-cloudflare | `caddy-cloudflare/` | Caddy + Cloudflare DNS 插件；中心反向代理 |
+| sops | `sops/` | sops 二进制（官方 checksums 校验）；解密密钥 |
+| litestream | `litestream/` | Litestream 官方镜像；SQLite 持续备份 |
 
 ## 目录结构
 
@@ -25,6 +25,13 @@
 - 标签：只推送 `main`，不产生版本与 sha 标签；ACR 个人版不支持自动清理。
 - 发布：ACR；服务器与应用通过 VPC 端点引用。
 - 自动化：`caddy-cloudflare` 构建成功后调用 `/hooks/sync-infra`，并轮询状态。
+
+## 版本维护
+
+- 版本以各 `Dockerfile` 为准，本文件不记录具体版本号。
+- `FROM` 镜像标签由 Dependabot 更新；合并后自动构建并发布 `main`。
+- `SOPS_VERSION` 与 `caddy-dns/cloudflare` 插件版本不在 Dependabot 覆盖范围，需人工定期核对。
+- 镜像只发布 `main`；通过 OCI revision 标签与镜像 digest 追溯构建来源。
 
 ## 配置
 

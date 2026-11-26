@@ -1,0 +1,36 @@
+name: litestream
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'litestream/**'
+      - '.github/workflows/litestream.yml'
+  pull_request:
+    paths:
+      - 'litestream/**'
+      - '.github/workflows/litestream.yml'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  docker:
+    permissions:
+      contents: read
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    uses: RyanRuiLiu/.github/.github/workflows/docker.yml@ab0dbbcfb12dfa191e3fc34d0df94b4bc64f240b
+    with:
+      image_name: litestream
+      context: ./litestream
+      dockerfile: ./litestream/Dockerfile
+      tags: |
+        type=ref,event=branch
+    secrets:
+      ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+      ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+      ACR_REGISTRY: ${{ secrets.ACR_REGISTRY }}
+      ACR_NAMESPACE: ${{ secrets.ACR_NAMESPACE }}

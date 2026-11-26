@@ -8,6 +8,7 @@
 | --- | --- | --- | --- |
 | caddy-cloudflare | `caddy-cloudflare/` | 2.11.9 | Caddy + Cloudflare DNS 插件；中心反向代理 |
 | sops | `sops/` | 3.13.3 | sops 二进制（官方 checksums 校验）；解密密钥 |
+| litestream | `litestream/` | 0.5.18 | Litestream 官方镜像；SQLite 持续备份 |
 
 ## 目录结构
 
@@ -15,6 +16,7 @@
 | --- | --- |
 | `caddy-cloudflare/Dockerfile` | caddy-cloudflare 镜像构建定义 |
 | `sops/Dockerfile` | sops 镜像构建定义 |
+| `litestream/Dockerfile` | litestream 镜像构建定义 |
 | `.github/workflows/` | 各镜像的构建工作流 |
 
 ## 构建与发布

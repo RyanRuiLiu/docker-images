@@ -12,6 +12,12 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "build(deps)"
+  - package-ecosystem: "docker"
+    directory: "/litestream"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "build(deps)"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
